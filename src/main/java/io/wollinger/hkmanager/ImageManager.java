@@ -34,7 +34,7 @@ public class ImageManager {
 
     private static BufferedImage load(String name) {
         try {
-            return ImageIO.read(ImageManager.class.getResourceAsStream("/io/wollinger/hkmanageR/img/" + name + ".png"));
+            return ImageIO.read(ImageManager.class.getResourceAsStream("/io/wollinger/hkmanager/img/" + name + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
