@@ -92,8 +92,8 @@ public class Save {
         return nailUpgrades;
     }
 
-    public int getSoulReserves() {
-        return soulReserves;
+    public int getSoulVessels() {
+        return soulVessels;
     }
 
     public boolean isSteelsoul() {
