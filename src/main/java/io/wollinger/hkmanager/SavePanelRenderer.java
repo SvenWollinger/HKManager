@@ -43,7 +43,9 @@ public class SavePanelRenderer extends JPanel {
             g.drawImage(mask, offsetX + maskSize * i, offsetY, dim.width, dim.height, this);
         }
 
-        BufferedImage nail = ImageManager.nails[save.getNailUpgrades() - 1];
+        int nailIndex = save.getNailUpgrades() - 1;
+        if(nailIndex < 0) nailIndex = 0;
+        BufferedImage nail = ImageManager.nails[nailIndex];
         Dimension nailDim = getScaledDimension(nail, new Dimension(maskSize * 6, maskSize * 5));
         g.drawImage(nail, offsetX, maskSize + offsetY, nailDim.width, nailDim.height, this);
 
