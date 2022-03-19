@@ -3,7 +3,6 @@ package io.wollinger.hkmanager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class SavePanelRenderer extends JPanel {
     private Save save;
@@ -13,8 +12,14 @@ public class SavePanelRenderer extends JPanel {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics _g) {
         int mode = save.getMode();
+
+        Graphics2D g = (Graphics2D) _g;
+
+        RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHints(hints);
 
         BufferedImage hud = ImageManager.hud;
         Point point = ImageManager.hud_point;
@@ -48,6 +53,11 @@ public class SavePanelRenderer extends JPanel {
         BufferedImage nail = ImageManager.nails[save.getNailUpgrades() - 1];
         Dimension nailDim = getScaledDimension(nail, new Dimension(maskSize * 6, maskSize * 5));
         g.drawImage(nail, offsetX, maskSize + offsetY, nailDim.width, nailDim.height, this);
+
+        for(int i = 0; i < save.getSoulVessels(); i++) {
+            Dimension dim = getScaledDimension(ImageManager.vessel, new Dimension(maskSize, maskSize));
+            g.drawImage(ImageManager.vessel, maskSize * 6 + offsetX + maskSize * i, offsetY + maskSize + (maskSize/4), dim.width, dim.height, this);
+        }
 
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
     }
