@@ -19,6 +19,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
     implementation 'org.json:json:20211205'
+    implementation 'org.gnu:gnu-crypto:2.0.1'
 }
 
 test {
