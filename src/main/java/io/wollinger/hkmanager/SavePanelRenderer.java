@@ -20,7 +20,7 @@ public class SavePanelRenderer extends JPanel {
         Point point = ImageManager.hud_point;
         float scaling = ImageManager.hud_scale;
         switch(mode) {
-            case 0:
+            case 1:
                 hud = ImageManager.hud_steel;
                 point = ImageManager.hud_steel_point;
                 scaling = ImageManager.hud_steel_scale;
@@ -46,7 +46,7 @@ public class SavePanelRenderer extends JPanel {
         }
 
         BufferedImage nail = ImageManager.nails[save.getNailUpgrades() - 1];
-        Dimension nailDim = getScaledDimension(nail, new Dimension(maskSize, maskSize * 2));
+        Dimension nailDim = getScaledDimension(nail, new Dimension(maskSize * 6, maskSize * 5));
         g.drawImage(nail, offsetX, maskSize + offsetY, nailDim.width, nailDim.height, this);
 
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
