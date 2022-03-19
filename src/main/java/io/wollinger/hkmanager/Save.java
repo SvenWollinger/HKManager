@@ -11,32 +11,35 @@ public class Save {
 
     private String name;
 
+    private int masks;
     private int geo;
     private float completionPercentage;
     private float playTime;
     private int nailUpgrades;
-    private String version;
-    private int masks;
     private boolean steelsoul;
+    private String version;
 
     public enum KIND {USER1, USER2, USER3, USER4}
 
-    public Save(KIND kind) {
+    public Save(String baseFilename) {
         File hkFolder = HKManager.getHollowKnightFolder();
         File[] hkFolderFiles = hkFolder.listFiles();
-        String lookingFor = kind.toString().toLowerCase();
         for(File cFile : hkFolderFiles) {
             //If file starts with fileX add it to list
-            if(cFile.getName().startsWith(lookingFor))
+            if(cFile.getName().startsWith(baseFilename))
                 files.add(cFile);
             //if its the main save file eg fileX.dat load data from it
-            if(cFile.getName().equals(lookingFor + ".dat"))
+            if(cFile.getName().equals(baseFilename + ".dat"))
                 loadData(cFile);
         }
 
-        File infoFile = new File(hkFolder.getAbsolutePath() + File.separator + lookingFor + ".json");
+        File infoFile = new File(hkFolder.getAbsolutePath() + File.separator + baseFilename + ".json");
         if(infoFile.exists())
             loadInfo(infoFile);
+    }
+
+    public Save(KIND kind) {
+        this(kind.toString().toLowerCase());
     }
 
     private void loadData(File file) {
@@ -50,7 +53,10 @@ public class Save {
             nailUpgrades = playerData.getInt("nailSmithUpgrades");
             version = playerData.getString("version");
             masks = playerData.getInt("maxHealth");
-            steelsoul = playerData.getBoolean("permadeathMode");
+            steelsoul = playerData.getInt("permadeathMode") != 0;
+
+            //Loading complete, file is valid!
+            valid = true;
         } catch(Exception exception) {
             exception.printStackTrace();
         }
@@ -63,4 +69,33 @@ public class Save {
     public boolean isValid() {
         return valid;
     }
+
+    public int getMasks() {
+        return masks;
+    }
+
+    public int getGeo() {
+        return geo;
+    }
+
+    public float getCompletionPercentage() {
+        return completionPercentage;
+    }
+
+    public float getPlayTime() {
+        return playTime;
+    }
+
+    public int getNailUpgrades() {
+        return nailUpgrades;
+    }
+
+    public boolean isSteelsoul() {
+        return steelsoul;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
 }
