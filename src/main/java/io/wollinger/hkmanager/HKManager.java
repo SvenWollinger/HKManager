@@ -6,8 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class HKManager extends JFrame {
-    private ArrayList<Save> loadedSaves = new ArrayList<>();
-    private ArrayList<Save> saves = new ArrayList<>();
+    private final Save[] loadedSaves = new Save[4];
+    private final ArrayList<Save> saves = new ArrayList<>();
 
     public HKManager() {
         ensureFolders();
@@ -20,7 +20,11 @@ public class HKManager extends JFrame {
         JPanel panelSaves = new JPanel();
         JPanel panelLoadedSaves = new JPanel();
 
+        for(Save save : loadedSaves)
+            panelLoadedSaves.add(new SavePanel(save));
 
+        for(Save save : saves)
+            panelSaves.add(new SavePanel(save));
 
         add(panelSaves);
         add(panelLoadedSaves);
@@ -28,10 +32,10 @@ public class HKManager extends JFrame {
     }
 
     public void loadLoadedSaves() {
-        new Save(Save.KIND.USER1);
-        new Save(Save.KIND.USER2);
-        new Save(Save.KIND.USER3);
-        new Save(Save.KIND.USER4);
+        loadedSaves[0] = new Save(Save.KIND.USER1);
+        loadedSaves[1] = new Save(Save.KIND.USER2);
+        loadedSaves[2] = new Save(Save.KIND.USER3);
+        loadedSaves[3] = new Save(Save.KIND.USER4);
     }
 
     public void ensureFolders() {
