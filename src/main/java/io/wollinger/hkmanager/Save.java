@@ -14,6 +14,7 @@ public class Save {
     private int masks;
     private int geo;
     private float completionPercentage;
+    private int soulVessels;
     private float playTime;
     private int nailUpgrades;
     private boolean steelsoul;
@@ -52,7 +53,8 @@ public class Save {
             playTime = playerData.getFloat("playTime");
             nailUpgrades = playerData.getInt("nailSmithUpgrades");
             version = playerData.getString("version");
-            masks = playerData.getInt("maxHealth");
+            masks = playerData.getInt("heartPieces") + 5;
+            soulVessels = playerData.getInt("MPReserveMax") / 33;
             steelsoul = playerData.getInt("permadeathMode") != 0;
 
             //Loading complete, file is valid!
@@ -88,6 +90,10 @@ public class Save {
 
     public int getNailUpgrades() {
         return nailUpgrades;
+    }
+
+    public int getSoulReserves() {
+        return soulReserves;
     }
 
     public boolean isSteelsoul() {
