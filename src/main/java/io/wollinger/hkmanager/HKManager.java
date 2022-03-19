@@ -8,9 +8,10 @@ public class HKManager extends JFrame {
     private ArrayList<Save> saves = new ArrayList<>();
 
     public HKManager() {
+        ensureFolders();
+
         setSize(512, 512);
         setTitle("HKManager");
-        ensureFolders();
     }
 
     public void ensureFolders() {
