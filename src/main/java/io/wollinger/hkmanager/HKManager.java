@@ -21,18 +21,21 @@ public class HKManager extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 2));
         JPanel panelSaves = new JPanel();
-        JPanel panelLoadedSaves = new JPanel();
+        JPanel panelLoadedSaves = new JPanel(new GridLayout(0,1));
+
+        JScrollPane panelLoadedSavesSP = new JScrollPane (panelLoadedSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
 
         for(Save save : loadedSaves)
             if(save.isValid())
-                panelLoadedSaves.add(new SavePanel(save, panelLoadedSaves));
+                panelLoadedSaves.add(new SavePanel(save, panelLoadedSavesSP));
 
         for(Save save : saves)
             if(save.isValid())
-                panelSaves.add(new SavePanel(save, panelSaves));
+                panelSaves.add(new SavePanel(save, null));
 
         add(panelSaves);
-        add(panelLoadedSaves);
+        add(panelLoadedSavesSP);
         setVisible(true);
     }
 
