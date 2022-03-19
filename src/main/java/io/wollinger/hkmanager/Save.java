@@ -11,6 +11,8 @@ public class Save {
 
     private String name;
 
+    private KIND kind;
+
     private int masks;
     private int geo;
     private float completionPercentage;
@@ -20,9 +22,10 @@ public class Save {
     private int mode; //0 = normal, 1 = steelsoul, 2 = godseeker
     private String version;
 
-    public enum KIND {USER1, USER2, USER3, USER4}
+    public enum KIND {USER1, USER2, USER3, USER4, OTHER}
 
-    public Save(String baseFilename) {
+    public Save(String baseFilename, KIND kind) {
+        this.kind = kind;
         File hkFolder = HKManager.getHollowKnightFolder();
         File[] hkFolderFiles = hkFolder.listFiles();
         for(File cFile : hkFolderFiles) {
@@ -39,8 +42,12 @@ public class Save {
             loadInfo(infoFile);
     }
 
+    public Save(String baseFilename) {
+        this(baseFilename, KIND.OTHER);
+    }
+
     public Save(KIND kind) {
-        this(kind.toString().toLowerCase());
+        this(kind.toString().toLowerCase(), kind);
     }
 
     private void loadData(File file) {
@@ -76,6 +83,10 @@ public class Save {
         return valid;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getMasks() {
         return masks;
     }
@@ -106,6 +117,10 @@ public class Save {
 
     public String getVersion() {
         return version;
+    }
+
+    public KIND getKind() {
+        return kind;
     }
 
 }
