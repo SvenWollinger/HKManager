@@ -14,14 +14,9 @@ public class ImageManager {
     public static BufferedImage vessel_steel;
 
     public static BufferedImage hud;
-    public static Point hud_point = new Point(52,43);
-    public static float hud_scale = 2;
+    public static Point hud_point = new Point(31,50);
     public static BufferedImage hud_steel;
-    public static Point hud_steel_point = new Point(31, 50);
-    public static float hud_steel_scale = 1;
     public static BufferedImage hud_god;
-    public static Point hud_god_point = new Point(40, 55);
-    public static float hud_god_scale = 1.5F;
 
     public static BufferedImage[] nails = new BufferedImage[4];
 

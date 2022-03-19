@@ -25,21 +25,12 @@ public class SavePanelRenderer extends JPanel {
 
         BufferedImage hud = ImageManager.hud;
         Point point = ImageManager.hud_point;
-        float scaling = ImageManager.hud_scale;
         switch(mode) {
-            case 1:
-                hud = ImageManager.hud_steel;
-                point = ImageManager.hud_steel_point;
-                scaling = ImageManager.hud_steel_scale;
-                break;
-            case 2:
-                hud = ImageManager.hud_god;
-                point = ImageManager.hud_god_point;
-                scaling = ImageManager.hud_god_scale;
-                break;
+            case 1: hud = ImageManager.hud_steel; break;
+            case 2: hud = ImageManager.hud_god; break;
         }
 
-        Dimension hudDim = getScaledDimension(hud, new Dimension((int)(getWidth() / scaling), (int)(getHeight() / scaling)));
+        Dimension hudDim = getScaledDimension(hud, new Dimension((int)(getWidth()), (int)(getHeight())));
         g.drawImage(hud, 0, 0, hudDim.width, hudDim.height, this);
         int offsetX = (int) ((hudDim.width * (point.x / 100F)));
         int offsetY = (int) ((hudDim.height * (point.y / 100F)));
