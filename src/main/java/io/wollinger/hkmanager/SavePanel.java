@@ -22,7 +22,7 @@ public class SavePanel extends JPanel {
         }
 
         if(save.getName() != null && !save.getName().isEmpty()) {
-            name = save.getName() + " " + name;
+            name = save.getName() + " (" + name + ")";
         }
 
         JLabel title = new JLabel(name);
