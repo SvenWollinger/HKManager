@@ -3,11 +3,14 @@ package io.wollinger.hkmanager;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class HKManager extends JFrame {
     private final Save[] loadedSaves = new Save[4];
     private final ArrayList<Save> saves = new ArrayList<>();
+    private static Font font;
 
     public HKManager() {
         ensureFolders();
@@ -66,5 +69,18 @@ public class HKManager extends JFrame {
     public static File getHollowKnightFolder() {
         File appdata = new File(System.getenv("APPDATA")).getParentFile();
         return new File(appdata.getAbsolutePath() + File.separator + "LocalLow" + File.separator + "Team Cherry" + File.separator + "Hollow Knight");
+    }
+
+    public static Font getHKFont() {
+        if(font == null) {
+            try {
+                InputStream is = HKManager.class.getResourceAsStream("/io/wollinger/hkmanager/fonts/trajanprobold.ttf");
+                font = Font.createFont(Font.TRUETYPE_FONT,is);
+                font = font.deriveFont(24f);
+            } catch (FontFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return font;
     }
 }

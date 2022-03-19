@@ -62,6 +62,10 @@ public class SavePanelRenderer extends JPanel {
             g.drawImage(ImageManager.vessel, size / 4 + maskSize * 6 + offsetX + maskSize * i, size / 4 + offsetY + maskSize + (maskSize/4), size, size, this);
         }
 
+        g.setFont(HKManager.getHKFont());
+        g.setColor(Color.WHITE);
+
+
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
     }
 
