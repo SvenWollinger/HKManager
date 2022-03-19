@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ImageManager {
+    public static BufferedImage bg;
     public static BufferedImage geo;
     public static BufferedImage mask;
     public static BufferedImage mask_steel;
@@ -25,6 +26,7 @@ public class ImageManager {
     public static BufferedImage[] nails = new BufferedImage[4];
 
     public static void load() {
+        bg = load("bg");
         geo = load("geo");
         mask = load("mask");
         mask_steel = load("mask_steel");

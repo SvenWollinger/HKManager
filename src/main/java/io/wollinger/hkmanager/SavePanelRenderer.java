@@ -21,6 +21,8 @@ public class SavePanelRenderer extends JPanel {
         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHints(hints);
 
+        g.drawImage(ImageManager.bg, 0, 0, getWidth(), getHeight(), this);
+
         BufferedImage hud = ImageManager.hud;
         Point point = ImageManager.hud_point;
         float scaling = ImageManager.hud_scale;
