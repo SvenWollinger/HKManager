@@ -17,7 +17,7 @@ public class Save {
     private int soulVessels;
     private float playTime;
     private int nailUpgrades;
-    private boolean steelsoul;
+    private int mode; //0 = normal, 1 = steelsoul, 2 = godseeker
     private String version;
 
     public enum KIND {USER1, USER2, USER3, USER4}
@@ -55,7 +55,11 @@ public class Save {
             version = playerData.getString("version");
             masks = playerData.getInt("heartPieces") + 5;
             soulVessels = playerData.getInt("MPReserveMax") / 33;
-            steelsoul = playerData.getInt("permadeathMode") != 0;
+            mode = 0;
+            if(playerData.getInt("permadeathMode") == 1)
+                mode = 1;
+            if(playerData.getBoolean("newDataGodseekerMask"))
+                mode = 2;
 
             //Loading complete, file is valid!
             valid = true;
@@ -96,8 +100,8 @@ public class Save {
         return soulVessels;
     }
 
-    public boolean isSteelsoul() {
-        return steelsoul;
+    public int getMode() {
+        return mode;
     }
 
     public String getVersion() {
