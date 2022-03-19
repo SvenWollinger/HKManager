@@ -5,17 +5,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ImageManager {
-    private static BufferedImage geo;
-    private static BufferedImage mask;
-    private static BufferedImage mask_steel;
-    private static BufferedImage vessel;
-    private static BufferedImage vessel_steel;
+    public static BufferedImage geo;
+    public static BufferedImage mask;
+    public static BufferedImage mask_steel;
+    public static BufferedImage vessel;
+    public static BufferedImage vessel_steel;
 
-    private static BufferedImage hud;
-    private static BufferedImage hud_god;
-    private static BufferedImage hud_steel;
+    public static BufferedImage hud;
+    public static BufferedImage hud_god;
+    public static BufferedImage hud_steel;
 
-    private static BufferedImage[] nails = new BufferedImage[4];
+    public static BufferedImage[] nails = new BufferedImage[4];
 
     public static void load() {
         geo = load("geo");
@@ -39,21 +39,5 @@ public class ImageManager {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public BufferedImage getGeo() {
-        return geo;
-    }
-
-    public BufferedImage getMask() {
-        return mask;
-    }
-
-    public BufferedImage getVessel() {
-        return vessel;
-    }
-
-    public BufferedImage getNail(int index) {
-        return nails[index];
     }
 }
