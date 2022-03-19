@@ -21,10 +21,12 @@ public class HKManager extends JFrame {
         JPanel panelLoadedSaves = new JPanel();
 
         for(Save save : loadedSaves)
-            panelLoadedSaves.add(new SavePanel(save));
+            if(save.isValid())
+                panelLoadedSaves.add(new SavePanel(save, panelLoadedSaves));
 
         for(Save save : saves)
-            panelSaves.add(new SavePanel(save));
+            if(save.isValid())
+                panelSaves.add(new SavePanel(save, panelSaves));
 
         add(panelSaves);
         add(panelLoadedSaves);
