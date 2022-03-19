@@ -1,17 +1,37 @@
 package io.wollinger.hkmanager;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
 public class HKManager extends JFrame {
+    private ArrayList<Save> loadedSaves = new ArrayList<>();
     private ArrayList<Save> saves = new ArrayList<>();
 
     public HKManager() {
         ensureFolders();
+        loadLoadedSaves();
 
         setSize(512, 512);
         setTitle("HKManager");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(0, 2));
+        JPanel panelSaves = new JPanel();
+        JPanel panelLoadedSaves = new JPanel();
+
+
+
+        add(panelSaves);
+        add(panelLoadedSaves);
+        setVisible(true);
+    }
+
+    public void loadLoadedSaves() {
+        new Save(Save.KIND.USER1);
+        new Save(Save.KIND.USER2);
+        new Save(Save.KIND.USER3);
+        new Save(Save.KIND.USER4);
     }
 
     public void ensureFolders() {
@@ -35,5 +55,10 @@ public class HKManager extends JFrame {
 
         if(!logFolder.exists())
             logFolder.mkdir();
+    }
+
+    public static File getHollowKnightFolder() {
+        File appdata = new File(System.getenv("APPDATA")).getParentFile();
+        return new File(appdata.getAbsolutePath() + File.separator + "LocalLow" + File.separator + "Team Cherry" + File.separator + "Hollow Knight");
     }
 }
