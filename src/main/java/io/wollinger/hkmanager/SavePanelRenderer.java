@@ -58,7 +58,8 @@ public class SavePanelRenderer extends JPanel {
 
         for(int i = 0; i < save.getSoulVessels(); i++) {
             Dimension dim = getScaledDimension(ImageManager.vessel, new Dimension(maskSize, maskSize));
-            g.drawImage(ImageManager.vessel, maskSize * 6 + offsetX + maskSize * i, offsetY + maskSize + (maskSize/4), dim.width, dim.height, this);
+            int size = (int) (dim.width / 1.5F);
+            g.drawImage(ImageManager.vessel, size / 4 + maskSize * 6 + offsetX + maskSize * i, size / 4 + offsetY + maskSize + (maskSize/4), size, size, this);
         }
 
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
