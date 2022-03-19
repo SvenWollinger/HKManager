@@ -12,38 +12,51 @@ public class HKManager extends JFrame {
     private final ArrayList<Save> saves = new ArrayList<>();
     private static Font font;
 
+    private JPanel panelSaves = new JPanel(new GridLayout(0, 1));
+    private JPanel panelLoadedSaves = new JPanel(new GridLayout(0,1));
+    private JScrollPane panelSavesSP = new JScrollPane (panelSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    private JScrollPane panelLoadedSavesSP = new JScrollPane (panelLoadedSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+    private File savesFolder;
+    private File backupsFolder;
+
     public HKManager() {
         ensureFolders();
-        loadLoadedSaves();
 
         setSize(512, 512);
         setTitle("HKManager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 2));
-        JPanel panelSaves = new JPanel();
-        JPanel panelLoadedSaves = new JPanel(new GridLayout(0,1));
 
-        JScrollPane panelLoadedSavesSP = new JScrollPane (panelLoadedSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        panelSavesSP.getVerticalScrollBar().setUnitIncrement(20);
         panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
+
+        loadSaves();
+
+        add(panelSavesSP);
+        add(panelLoadedSavesSP);
+        setVisible(true);
+    }
+
+    public void loadSaves() {
+        loadedSaves[0] = new Save(Save.KIND.USER1);
+        loadedSaves[1] = new Save(Save.KIND.USER2);
+        loadedSaves[2] = new Save(Save.KIND.USER3);
+        loadedSaves[3] = new Save(Save.KIND.USER4);
+
+        for(File folder : savesFolder.listFiles()) {
+            saves.add(new Save(folder, Save.KIND.USER0));
+        }
+
+        for(Save save : saves)
+            if(save.isValid())
+                panelSaves.add(new SavePanel(save, panelSavesSP));
 
         for(Save save : loadedSaves)
             if(save.isValid())
                 panelLoadedSaves.add(new SavePanel(save, panelLoadedSavesSP));
 
-        for(Save save : saves)
-            if(save.isValid())
-                panelSaves.add(new SavePanel(save, null));
-
-        add(panelSaves);
-        add(panelLoadedSavesSP);
-        setVisible(true);
-    }
-
-    public void loadLoadedSaves() {
-        loadedSaves[0] = new Save(Save.KIND.USER1);
-        loadedSaves[1] = new Save(Save.KIND.USER2);
-        loadedSaves[2] = new Save(Save.KIND.USER3);
-        loadedSaves[3] = new Save(Save.KIND.USER4);
+        revalidate();
     }
 
     public void ensureFolders() {
@@ -51,8 +64,8 @@ public class HKManager extends JFrame {
         String mainFolderPath = userHome + File.separator + ".hkmanager";
 
         File mainFolder = new File(mainFolderPath);
-        File savesFolder = new File(mainFolderPath + File.separator + "saves");
-        File backupFolder = new File(mainFolder + File.separator + "backups");
+        savesFolder = new File(mainFolderPath + File.separator + "saves");
+        backupsFolder = new File(mainFolder + File.separator + "backups");
         File logFolder = new File(mainFolder + File.separator + "logs");
 
         //TODO: When add logger, add checks
@@ -62,8 +75,8 @@ public class HKManager extends JFrame {
         if(!savesFolder.exists())
             savesFolder.mkdir();
 
-        if(!backupFolder.exists())
-            backupFolder.mkdir();
+        if(!backupsFolder.exists())
+            backupsFolder.mkdir();
 
         if(!logFolder.exists())
             logFolder.mkdir();

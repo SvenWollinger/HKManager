@@ -18,7 +18,7 @@ public class SavePanel extends JPanel {
             case USER2: name = "Slot 2"; break;
             case USER3: name = "Slot 3"; break;
             case USER4: name = "Slot 4"; break;
-            case OTHER: name = ""; break;
+            case USER0: name = ""; break;
         }
 
         if(save.getName() != null && !save.getName().isEmpty()) {

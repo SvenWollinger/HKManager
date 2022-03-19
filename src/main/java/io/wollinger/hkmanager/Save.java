@@ -22,13 +22,13 @@ public class Save {
     private int mode; //0 = normal, 1 = steelsoul, 2 = godseeker
     private String version;
 
-    public enum KIND {USER1, USER2, USER3, USER4, OTHER}
+    public enum KIND {USER1, USER2, USER3, USER4, USER0}
 
-    public Save(String baseFilename, KIND kind) {
+    public Save(File baseFolder, KIND kind) {
         this.kind = kind;
-        File hkFolder = HKManager.getHollowKnightFolder();
-        File[] hkFolderFiles = hkFolder.listFiles();
-        for(File cFile : hkFolderFiles) {
+        String baseFilename = kind.toString().toLowerCase();
+        File[] folderFiles = baseFolder.listFiles();
+        for(File cFile : folderFiles) {
             //If file starts with fileX add it to list
             if(cFile.getName().startsWith(baseFilename))
                 files.add(cFile);
@@ -37,17 +37,13 @@ public class Save {
                 loadData(cFile);
         }
 
-        File infoFile = new File(hkFolder.getAbsolutePath() + File.separator + baseFilename + ".json");
+        File infoFile = new File(baseFolder.getAbsolutePath() + File.separator + baseFilename + ".json");
         if(infoFile.exists())
             loadInfo(infoFile);
     }
 
-    public Save(String baseFilename) {
-        this(baseFilename, KIND.OTHER);
-    }
-
     public Save(KIND kind) {
-        this(kind.toString().toLowerCase(), kind);
+        this(HKManager.getHollowKnightFolder(), kind);
     }
 
     private void loadData(File file) {
