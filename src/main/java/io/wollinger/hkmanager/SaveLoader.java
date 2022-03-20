@@ -22,13 +22,12 @@ public class SaveLoader {
     private static final int BLOCK_SIZE = 16;
 
     private static byte[] crypt(byte[] input) throws Exception{
-        IMode mode = ModeFactory.getInstance(CIPHER_MODE, CIPHER_ALGO, BLOCK_SIZE);
-
         Map<String, Object> attributes = new HashMap<>();
         attributes.put(IMode.KEY_MATERIAL, RIJNDAEL_KEY);
         attributes.put(IMode.CIPHER_BLOCK_SIZE, BLOCK_SIZE);
         attributes.put(IMode.STATE, IMode.DECRYPTION);
 
+        IMode mode = ModeFactory.getInstance(CIPHER_MODE, CIPHER_ALGO, BLOCK_SIZE);
         mode.init(attributes);
 
         int bs = mode.currentBlockSize();
@@ -49,7 +48,6 @@ public class SaveLoader {
         byte[] output = new byte[ct.length - unpad];
         System.arraycopy(ct, 0, output, 0, ct.length);
         return output;
-
     }
 
     private static byte[] decrypt(String input) throws Exception {
