@@ -35,7 +35,7 @@ public class HKManager extends JFrame {
         panelSavesSP.getVerticalScrollBar().setUnitIncrement(20);
         panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
 
-        loadSaves(false);
+        loadSaves();
 
         add(panelSavesSP);
         add(panelLoadedSavesSP);
@@ -49,14 +49,16 @@ public class HKManager extends JFrame {
             panel.triggerResize();
         }
         revalidate();
+        repaint();
     }
 
-    public void loadSaves(boolean triggerResize) {
+    public void loadSaves() {
         loadedSaves[0] = new Save(Save.KIND.USER1);
         loadedSaves[1] = new Save(Save.KIND.USER2);
         loadedSaves[2] = new Save(Save.KIND.USER3);
         loadedSaves[3] = new Save(Save.KIND.USER4);
 
+        saves.clear();
         for(File folder : savesFolder.listFiles()) {
             saves.add(new Save(folder, Save.KIND.USER0));
         }
@@ -118,7 +120,7 @@ public class HKManager extends JFrame {
         moveSaveFile(save, backupsFolder, "user0", true);
         moveSaveFile(save, savesFolder, "user0", true);
         deleteSaveFiles(save);
-        loadSaves(true);
+        loadSaves();
         resizePanels();
     }
 
@@ -126,8 +128,7 @@ public class HKManager extends JFrame {
         moveSaveFile(save, backupsFolder, "user0", true);
         moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
         deleteSaveFiles(save);
-        System.out.println(save);
-        loadSaves(true);
+        loadSaves();
         resizePanels();
     }
 
