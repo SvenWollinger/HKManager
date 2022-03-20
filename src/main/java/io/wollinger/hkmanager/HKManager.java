@@ -115,7 +115,14 @@ public class HKManager extends JFrame {
     public void moveToStorage(Save save) {
         moveSaveFile(save, backupsFolder, "user0");
         moveSaveFile(save, savesFolder, "user0");
+        deleteSaveFiles(save);
         loadSaves(true);
+    }
+
+    private void deleteSaveFiles(Save save) {
+        for(File f : save.getFiles()) {
+            f.delete();
+        }
     }
 
     private void moveSaveFile(Save save, File location, String userID) {
