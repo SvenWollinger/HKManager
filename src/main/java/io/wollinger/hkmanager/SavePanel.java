@@ -71,7 +71,7 @@ public class SavePanel extends JPanel {
     }
 
     public void triggerResize() {
-        final int safetyMargin = 20;
+        final int safetyMargin = 40;
 
         renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, parent.getViewport().getWidth() / 2));
         int titleHeight = title.getFont().getSize();

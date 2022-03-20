@@ -3,15 +3,19 @@ package io.wollinger.hkmanager;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class Save {
-    private ArrayList<File> files = new ArrayList<>();
+    private final ArrayList<File> files = new ArrayList<>();
     private boolean valid = false;
 
     private String name;
 
-    private KIND kind;
+    private final KIND kind;
 
     private int masks;
     private int geo;
@@ -37,9 +41,15 @@ public class Save {
                 loadData(cFile);
         }
 
-        File infoFile = new File(baseFolder.getAbsolutePath() + File.separator + baseFilename + ".json");
-        if(infoFile.exists())
-            loadInfo(infoFile);
+        File configFile = getConfigFile();
+        if(configFile != null && configFile.exists()) {
+            try {
+                JSONObject config = new JSONObject(new String(Files.readAllBytes(configFile.toPath())));
+                name = config.getString("name");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public Save(KIND kind) {
@@ -71,10 +81,6 @@ public class Save {
         }
     }
 
-    private void loadInfo(File file) {
-
-    }
-
     public boolean isValid() {
         return valid;
     }
@@ -83,8 +89,23 @@ public class Save {
         return name;
     }
 
+    private File getConfigFile() {
+        if(files.size() == 0) return null;
+        File parentFolder = files.get(0).getParentFile();
+        return new File(parentFolder.getAbsolutePath() + File.separator + kind.toString().toLowerCase() + ".cfg");
+    }
+
     public void setName(String name) {
         this.name = name;
+        JSONObject config = new JSONObject();
+        config.put("name", name);
+        try {
+            PrintWriter out = new PrintWriter(getConfigFile());
+            out.write(config.toString());
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getMasks() {
