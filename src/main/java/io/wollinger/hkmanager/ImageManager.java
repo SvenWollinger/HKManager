@@ -20,6 +20,8 @@ public class ImageManager {
 
     public static BufferedImage[] nails = new BufferedImage[4];
 
+    public static BufferedImage gear;
+
     public static void load() {
         bg = load("bg");
         geo = load("geo");
@@ -34,6 +36,8 @@ public class ImageManager {
 
         for(int i = 0; i < nails.length; i++)
             nails[i] = load("nail" + (i + 1));
+
+        gear = load("gear");
     }
 
     private static BufferedImage load(String name) {
