@@ -21,6 +21,7 @@ public class ImageManager {
     public static BufferedImage[] nails = new BufferedImage[4];
 
     public static BufferedImage gear;
+    public static BufferedImage grub;
 
     public static void load() {
         bg = load("bg");
@@ -38,6 +39,7 @@ public class ImageManager {
             nails[i] = load("nail" + (i + 1));
 
         gear = load("gear");
+        grub = load("grub");
     }
 
     private static BufferedImage load(String name) {

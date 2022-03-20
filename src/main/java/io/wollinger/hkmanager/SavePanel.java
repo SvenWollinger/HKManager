@@ -24,7 +24,7 @@ public class SavePanel extends JPanel {
         gear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                String newName = (String) JOptionPane.showInputDialog(instance, "Enter new name", "Savegame name", JOptionPane.PLAIN_MESSAGE, new ImageIcon(ImageManager.geo), null, save.getName());
+                String newName = (String) JOptionPane.showInputDialog(instance, "Enter new name", "Savegame name", JOptionPane.PLAIN_MESSAGE, new ImageIcon(ImageManager.grub), null, save.getName());
                 save.setName(newName);
                 title.setText(genName(save));
             }
