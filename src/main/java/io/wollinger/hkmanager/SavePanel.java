@@ -45,7 +45,9 @@ public class SavePanel extends JPanel {
         } else {
             for(int i = 0; i < 4; i++) {
                 if(!hkManager.getLoadedSave(i).isValid()) {
-                    JButton btn = new JButton("Slot " + (i + 1) + " ->");
+                    int slot = i + 1;
+                    JButton btn = new JButton("Slot " + slot + " ->");
+                    btn.addActionListener(e -> hkManager.moveToSlot(save, slot));
                     buttonPanel.add(btn);
                 } else {
                     JPanel panel = new JPanel();

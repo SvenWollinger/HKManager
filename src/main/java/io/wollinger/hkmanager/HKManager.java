@@ -22,6 +22,8 @@ public class HKManager extends JFrame {
     private File savesFolder;
     private File backupsFolder;
 
+    private ArrayList<SavePanel> loadedPanels = new ArrayList<>();
+
     public HKManager() {
         ensureFolders();
 
@@ -33,16 +35,23 @@ public class HKManager extends JFrame {
         panelSavesSP.getVerticalScrollBar().setUnitIncrement(20);
         panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
 
-        ArrayList<SavePanel> panels = loadSaves(false);
+        loadSaves(false);
 
         add(panelSavesSP);
         add(panelLoadedSavesSP);
         setVisible(true);
-        for(SavePanel panel : panels)
-            panel.triggerResize();
+        resizePanels();
     }
 
-    public ArrayList<SavePanel> loadSaves(boolean triggerResize) {
+    public void resizePanels() {
+        revalidate();
+        for(SavePanel panel : loadedPanels) {
+            panel.triggerResize();
+        }
+        revalidate();
+    }
+
+    public void loadSaves(boolean triggerResize) {
         loadedSaves[0] = new Save(Save.KIND.USER1);
         loadedSaves[1] = new Save(Save.KIND.USER2);
         loadedSaves[2] = new Save(Save.KIND.USER3);
@@ -52,16 +61,15 @@ public class HKManager extends JFrame {
             saves.add(new Save(folder, Save.KIND.USER0));
         }
 
-        ArrayList<SavePanel> panels = new ArrayList<>();
-
         panelSaves.removeAll();
         panelLoadedSaves.removeAll();
+        loadedPanels.clear();
 
         for(Save save : saves) {
             if (save.isValid()) {
                 SavePanel panel = new SavePanel(this, save, panelSavesSP);
                 panelSaves.add(panel);
-                panels.add(panel);
+                loadedPanels.add(panel);
             }
         }
 
@@ -69,15 +77,9 @@ public class HKManager extends JFrame {
             if(save.isValid()) {
                 SavePanel panel = new SavePanel(this, save, panelLoadedSavesSP);
                 panelLoadedSaves.add(panel);
-                panels.add(panel);
+                loadedPanels.add(panel);
             }
         }
-        if(triggerResize) {
-            revalidate();
-            for(SavePanel panel : panels)
-                panel.triggerResize();
-        }
-        return panels;
     }
 
     public void ensureFolders() {
@@ -113,10 +115,20 @@ public class HKManager extends JFrame {
     }
 
     public void moveToStorage(Save save) {
-        moveSaveFile(save, backupsFolder, "user0");
-        moveSaveFile(save, savesFolder, "user0");
+        moveSaveFile(save, backupsFolder, "user0", true);
+        moveSaveFile(save, savesFolder, "user0", true);
         deleteSaveFiles(save);
         loadSaves(true);
+        resizePanels();
+    }
+
+    public void moveToSlot(Save save, int slot) {
+        moveSaveFile(save, backupsFolder, "user0", true);
+        moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
+        deleteSaveFiles(save);
+        System.out.println(save);
+        loadSaves(true);
+        resizePanels();
     }
 
     private void deleteSaveFiles(Save save) {
@@ -125,15 +137,24 @@ public class HKManager extends JFrame {
         }
     }
 
-    private void moveSaveFile(Save save, File location, String userID) {
-        File nFolder = new File(location.getAbsolutePath() + File.separator + getUnixtime() + (Math.random() * 1000));
+    private void moveSaveFile(Save save, File location, String userID, boolean randomFolder) {
+        String addition = "";
+        if(randomFolder) {
+            addition += File.separator + getUnixtime() + (Math.random() * 1000);
+        }
+        File nFolder = new File(location.getAbsolutePath() + addition);
         nFolder.mkdir();
         for(File f : save.getFiles()) {
             try {
-                String newName = f.getName().replace("user1", userID);
-                newName = newName.replace("user2", userID);
-                newName = newName.replace("user3", userID);
-                newName = newName.replace("user4", userID);
+                String newName = f.getName();
+                if(userID.endsWith("0")) {
+                    newName = newName.replace("user1", userID);
+                    newName = newName.replace("user2", userID);
+                    newName = newName.replace("user3", userID);
+                    newName = newName.replace("user4", userID);
+                } else {
+                    newName = newName.replace("user0", userID);
+                }
 
                 File newFile = new File(nFolder.getAbsolutePath() + File.separator + newName);
                 Files.copy(f.toPath(), newFile.toPath());
