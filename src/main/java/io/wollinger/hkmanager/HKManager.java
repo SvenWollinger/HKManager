@@ -5,6 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class HKManager extends JFrame {
@@ -113,5 +114,9 @@ public class HKManager extends JFrame {
             }
         }
         return font;
+    }
+
+    public static long getUnixtime() {
+        return Instant.now().getEpochSecond();
     }
 }
