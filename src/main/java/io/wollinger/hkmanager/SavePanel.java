@@ -4,10 +4,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class SavePanel extends JPanel {
     private SavePanel instance;
@@ -43,6 +40,7 @@ public class SavePanel extends JPanel {
 
         if(save.getKind() != Save.KIND.USER0) {
             JButton btn = new JButton("<- Storage");
+            btn.addActionListener(e -> hkManager.moveToStorage(save));
             buttonPanel.add(btn);
         } else {
             for(int i = 0; i < 4; i++) {

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -101,6 +102,29 @@ public class HKManager extends JFrame {
 
     public Save getLoadedSave(int index) {
         return loadedSaves[index];
+    }
+
+    public void moveToStorage(Save save) {
+        moveSaveFile(save, backupsFolder, "user0");
+        moveSaveFile(save, savesFolder, "user0");
+    }
+
+    private void moveSaveFile(Save save, File location, String userID) {
+        File nFolder = new File(location.getAbsolutePath() + File.separator + getUnixtime());
+        nFolder.mkdir();
+        for(File f : save.getFiles()) {
+            try {
+                String newName = f.getName().replace("user1", userID);
+                newName = newName.replace("user2", userID);
+                newName = newName.replace("user3", userID);
+                newName = newName.replace("user4", userID);
+
+                File newFile = new File(nFolder.getAbsolutePath() + File.separator + newName);
+                Files.copy(f.toPath(), newFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static Font getHKFont() {

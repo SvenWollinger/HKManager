@@ -123,6 +123,10 @@ public class Save {
         return kind;
     }
 
+    public ArrayList<File> getFiles() {
+        return files;
+    }
+
     @Override
     public String toString() {
         return "Save{" +
