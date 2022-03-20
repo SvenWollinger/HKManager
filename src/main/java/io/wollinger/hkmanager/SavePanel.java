@@ -1,6 +1,8 @@
 package io.wollinger.hkmanager;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -10,17 +12,24 @@ import java.awt.event.MouseEvent;
 public class SavePanel extends JPanel {
     private SavePanel instance;
 
-    public SavePanel(Save save, JScrollPane parent) {
+    private final JScrollPane parent;
+    private final SavePanelRenderer renderer;
+    private JLabel title;
+    private ImagePanel gear;
+    private JPanel buttonPanel;
+
+    public SavePanel(HKManager hkManager, Save save, JScrollPane parent) {
         instance = this;
+        this.parent = parent;
         setLayout(new FlowLayout());
 
-        SavePanelRenderer renderer = new SavePanelRenderer(save);
+        renderer = new SavePanelRenderer(save);
 
-        JLabel title = new JLabel(genName(save));
+        title = new JLabel(genName(save));
         title.setFont(HKManager.getHKFont().deriveFont(24F));
         title.setHorizontalAlignment(JLabel.CENTER);
 
-        ImagePanel gear = new ImagePanel(ImageManager.gear);
+        gear = new ImagePanel(ImageManager.gear);
         gear.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -30,25 +39,49 @@ public class SavePanel extends JPanel {
             }
         });
 
+        buttonPanel = new JPanel(new GridLayout(0, 4));
+
+        if(save.getKind() != Save.KIND.USER0) {
+            JButton btn = new JButton("<- Storage");
+            buttonPanel.add(btn);
+        } else {
+            for(int i = 0; i < 4; i++) {
+                if(!hkManager.getLoadedSave(i).isValid()) {
+                    JButton btn = new JButton("Slot " + (i + 1) + " ->");
+                    buttonPanel.add(btn);
+                } else {
+                    JPanel panel = new JPanel();
+                    buttonPanel.add(panel);
+                }
+            }
+        }
+
         parent.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                final int safetyMargin = 20;
-
-                renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, parent.getViewport().getWidth() / 2));
-                int titleHeight = title.getFont().getSize();
-                title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin - titleHeight, titleHeight));
-                gear.setPreferredSize(new Dimension(titleHeight, titleHeight));
-                setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + titleHeight));
-
-                revalidate();
+                triggerResize();
             }
         });
 
         add(title);
         add(gear);
-
         add(renderer);
+        add(buttonPanel);
+        setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+    }
+
+    public void triggerResize() {
+        final int safetyMargin = 20;
+
+        renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, parent.getViewport().getWidth() / 2));
+        int titleHeight = title.getFont().getSize();
+        title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin - titleHeight, titleHeight));
+        gear.setPreferredSize(new Dimension(titleHeight, titleHeight));
+        buttonPanel.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, 60));
+
+        setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + titleHeight + buttonPanel.getHeight() + safetyMargin));
+
+        revalidate();
     }
 
     public String genName(Save save) {
@@ -69,5 +102,11 @@ public class SavePanel extends JPanel {
                 name = save.getName();
         }
         return name;
+    }
+
+    @Override
+    public void paint (Graphics g) {
+        super.paint(g);
+        //g.drawRect(0 ,0, getWidth(), getHeight());
     }
 }

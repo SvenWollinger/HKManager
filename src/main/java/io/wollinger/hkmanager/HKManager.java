@@ -23,7 +23,7 @@ public class HKManager extends JFrame {
     public HKManager() {
         ensureFolders();
 
-        setSize(512, 512);
+        setSize(1024, 512);
         setTitle("HKManager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 2));
@@ -31,14 +31,16 @@ public class HKManager extends JFrame {
         panelSavesSP.getVerticalScrollBar().setUnitIncrement(20);
         panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
 
-        loadSaves();
+        ArrayList<SavePanel> panels = loadSaves();
 
         add(panelSavesSP);
         add(panelLoadedSavesSP);
         setVisible(true);
+        for(SavePanel panel : panels)
+            panel.triggerResize();
     }
 
-    public void loadSaves() {
+    public ArrayList<SavePanel> loadSaves() {
         loadedSaves[0] = new Save(Save.KIND.USER1);
         loadedSaves[1] = new Save(Save.KIND.USER2);
         loadedSaves[2] = new Save(Save.KIND.USER3);
@@ -48,15 +50,24 @@ public class HKManager extends JFrame {
             saves.add(new Save(folder, Save.KIND.USER0));
         }
 
-        for(Save save : saves)
-            if(save.isValid())
-                panelSaves.add(new SavePanel(save, panelSavesSP));
+        ArrayList<SavePanel> panels = new ArrayList<>();
 
-        for(Save save : loadedSaves)
-            if(save.isValid())
-                panelLoadedSaves.add(new SavePanel(save, panelLoadedSavesSP));
+        for(Save save : saves) {
+            if (save.isValid()) {
+                SavePanel panel = new SavePanel(this, save, panelSavesSP);
+                panelSaves.add(panel);
+                panels.add(panel);
+            }
+        }
 
-        revalidate();
+        for(Save save : loadedSaves) {
+            if(save.isValid()) {
+                SavePanel panel = new SavePanel(this, save, panelLoadedSavesSP);
+                panelLoadedSaves.add(panel);
+                panels.add(panel);
+            }
+        }
+        return panels;
     }
 
     public void ensureFolders() {
@@ -85,6 +96,10 @@ public class HKManager extends JFrame {
     public static File getHollowKnightFolder() {
         File appdata = new File(System.getenv("APPDATA")).getParentFile();
         return new File(appdata.getAbsolutePath() + File.separator + "LocalLow" + File.separator + "Team Cherry" + File.separator + "Hollow Knight");
+    }
+
+    public Save getLoadedSave(int index) {
+        return loadedSaves[index];
     }
 
     public static Font getHKFont() {
