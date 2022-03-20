@@ -33,7 +33,7 @@ public class HKManager extends JFrame {
         panelSavesSP.getVerticalScrollBar().setUnitIncrement(20);
         panelLoadedSavesSP.getVerticalScrollBar().setUnitIncrement(20);
 
-        ArrayList<SavePanel> panels = loadSaves();
+        ArrayList<SavePanel> panels = loadSaves(false);
 
         add(panelSavesSP);
         add(panelLoadedSavesSP);
@@ -42,7 +42,7 @@ public class HKManager extends JFrame {
             panel.triggerResize();
     }
 
-    public ArrayList<SavePanel> loadSaves() {
+    public ArrayList<SavePanel> loadSaves(boolean triggerResize) {
         loadedSaves[0] = new Save(Save.KIND.USER1);
         loadedSaves[1] = new Save(Save.KIND.USER2);
         loadedSaves[2] = new Save(Save.KIND.USER3);
@@ -53,6 +53,9 @@ public class HKManager extends JFrame {
         }
 
         ArrayList<SavePanel> panels = new ArrayList<>();
+
+        panelSaves.removeAll();
+        panelLoadedSaves.removeAll();
 
         for(Save save : saves) {
             if (save.isValid()) {
@@ -68,6 +71,11 @@ public class HKManager extends JFrame {
                 panelLoadedSaves.add(panel);
                 panels.add(panel);
             }
+        }
+        if(triggerResize) {
+            revalidate();
+            for(SavePanel panel : panels)
+                panel.triggerResize();
         }
         return panels;
     }
@@ -107,10 +115,11 @@ public class HKManager extends JFrame {
     public void moveToStorage(Save save) {
         moveSaveFile(save, backupsFolder, "user0");
         moveSaveFile(save, savesFolder, "user0");
+        loadSaves(true);
     }
 
     private void moveSaveFile(Save save, File location, String userID) {
-        File nFolder = new File(location.getAbsolutePath() + File.separator + getUnixtime());
+        File nFolder = new File(location.getAbsolutePath() + File.separator + getUnixtime() + (Math.random() * 1000));
         nFolder.mkdir();
         for(File f : save.getFiles()) {
             try {
