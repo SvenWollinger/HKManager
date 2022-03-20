@@ -79,7 +79,7 @@ public class SavePanel extends JPanel {
         gear.setPreferredSize(new Dimension(titleHeight, titleHeight));
         buttonPanel.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, 60));
 
-        setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + titleHeight + buttonPanel.getHeight() + safetyMargin));
+        setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + titleHeight + 60 + safetyMargin));
 
         revalidate();
     }
