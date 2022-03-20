@@ -128,6 +128,7 @@ public class HKManager extends JFrame {
         moveSaveFile(save, backupsFolder, "user0", true);
         moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
         deleteSaveFiles(save);
+        save.getFiles().get(0).getParentFile().delete();
         loadSaves();
         resizePanels();
     }
