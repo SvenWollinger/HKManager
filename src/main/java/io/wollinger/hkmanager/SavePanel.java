@@ -32,9 +32,9 @@ public class SavePanel extends JPanel {
         parent.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                setPreferredSize(new Dimension(parent.getViewport().getWidth(), parent.getViewport().getWidth() / 2));
                 renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - 10, parent.getViewport().getWidth() / 2));
                 title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - 10, title.getHeight()));
+                setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + title.getHeight()));
 
                 revalidate();
             }
