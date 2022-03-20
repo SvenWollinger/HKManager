@@ -123,4 +123,21 @@ public class Save {
         return kind;
     }
 
+    @Override
+    public String toString() {
+        return "Save{" +
+                "files=" + files +
+                ", valid=" + valid +
+                ", name='" + name + '\'' +
+                ", kind=" + kind +
+                ", masks=" + masks +
+                ", geo=" + geo +
+                ", completionPercentage=" + completionPercentage +
+                ", soulVessels=" + soulVessels +
+                ", playTime=" + playTime +
+                ", nailUpgrades=" + nailUpgrades +
+                ", mode=" + mode +
+                ", version='" + version + '\'' +
+                '}';
+    }
 }
