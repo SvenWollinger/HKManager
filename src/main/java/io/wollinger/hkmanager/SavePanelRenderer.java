@@ -59,6 +59,10 @@ public class SavePanelRenderer extends JPanel {
         g.setFont(HKManager.getHKFont().deriveFont(fSize));
         g.setColor(Color.WHITE);
 
+        String percentageString = save.getCompletionPercentage() + "%";
+        int percentageWidth = _g.getFontMetrics(g.getFont()).stringWidth(percentageString);
+        g.drawString(percentageString, getWidth() / 2F - percentageWidth / 2F, hudDim.height + fSize);
+
         float hours = save.getPlayTime() / 60 / 60;
         int minutes = (int) ((save.getPlayTime()/60) % 60F);
 
