@@ -45,7 +45,8 @@ public class Save {
         if(configFile != null && configFile.exists()) {
             try {
                 JSONObject config = new JSONObject(new String(Files.readAllBytes(configFile.toPath())));
-                name = config.getString("name");
+                if(config.has("name"))
+                    name = config.getString("name");
             } catch (IOException e) {
                 e.printStackTrace();
             }
