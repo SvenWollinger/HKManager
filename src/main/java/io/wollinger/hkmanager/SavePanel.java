@@ -58,6 +58,17 @@ public class SavePanel extends JPanel {
         trash.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this savegame? (It will still be backed up)", "Delete Savegame", JOptionPane.YES_NO_OPTION);
+                if(result != 0)
+                    return;
+
+                //If this fails we exit before deleting the save file, dont worry.
+                hkManager.moveToBackup(save);
+
+                hkManager.deleteSaveFiles(save, true);
+
+                hkManager.loadSaves();
+                hkManager.resizePanels();
             }
         });
 

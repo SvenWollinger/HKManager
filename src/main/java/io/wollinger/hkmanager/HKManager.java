@@ -127,13 +127,7 @@ public class HKManager extends JFrame {
     }
 
     public void moveToStorage(Save save) {
-        try {
-            moveSaveFile(save, backupsFolder, "user0", true);
-        } catch (IOException e) {
-            HKManager.errorMessage("Error moving files to backup storage! Message: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(0);
-        }
+        moveToBackup(save);
 
         try {
             moveSaveFile(save, savesFolder, "user0", true);
@@ -143,19 +137,13 @@ public class HKManager extends JFrame {
             System.exit(0);
         }
 
-        deleteSaveFiles(save);
+        deleteSaveFiles(save, false);
         loadSaves();
         resizePanels();
     }
 
     public void moveToSlot(Save save, int slot) {
-        try {
-            moveSaveFile(save, backupsFolder, "user0", true);
-        } catch (IOException e) {
-            HKManager.errorMessage("Error moving files to backup storage! Message: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(0);
-        }
+        moveToBackup(save);
 
         try {
             moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
@@ -165,16 +153,28 @@ public class HKManager extends JFrame {
             System.exit(0);
         }
 
-        deleteSaveFiles(save);
-        save.getFiles().get(0).getParentFile().delete();
+        deleteSaveFiles(save, true);
         loadSaves();
         resizePanels();
     }
 
-    private void deleteSaveFiles(Save save) {
+    public void moveToBackup(Save save) {
+        try {
+            moveSaveFile(save, backupsFolder, "user0", true);
+        } catch (IOException e) {
+            HKManager.errorMessage("Error moving files to backup storage! Message: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    public void deleteSaveFiles(Save save, boolean deleteParent) {
         for(File f : save.getFiles()) {
             f.delete();
         }
+
+        if(deleteParent)
+            save.getFiles().get(0).getParentFile().delete();
     }
 
     private void moveSaveFile(Save save, File location, String userID, boolean randomFolder) throws IOException {
