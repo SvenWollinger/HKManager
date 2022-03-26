@@ -1,0 +1,1 @@
+--dest release --vendor "Sven Wollinger" --copyright "2022 Sven Wollinger" --description "Hollow Knight Savegame Manager" --name "HKManager" --input build/libs/ --main-jar HKManager.jar --icon src/main/resources/io/wollinger/hkmanager/img/grub_square.ico
