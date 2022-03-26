@@ -2,22 +2,21 @@ package io.wollinger.hkmanager;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
 public class SavePanel extends JPanel {
-    private SavePanel instance;
+    private final SavePanel instance;
 
     private final JScrollPane parent;
     private final SavePanelRenderer renderer;
-    private JLabel title;
-    private ImagePanel folder;
-    private ImagePanel gear;
-    private ImagePanel trash;
-    private JPanel buttonPanel;
+    private final JLabel title;
+    private final ImagePanel folder;
+    private final ImagePanel gear;
+    private final ImagePanel trash;
+    private final JPanel buttonPanel;
 
     public SavePanel(HKManager hkManager, Save save, JScrollPane parent) {
         instance = this;
