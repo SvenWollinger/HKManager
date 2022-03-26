@@ -14,15 +14,15 @@ public class HKManager extends JFrame {
     private final ArrayList<Save> saves = new ArrayList<>();
     private static Font font;
 
-    private JPanel panelSaves = new JPanel(new GridLayout(0, 1));
-    private JPanel panelLoadedSaves = new JPanel(new GridLayout(0,1));
-    private JScrollPane panelSavesSP = new JScrollPane (panelSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    private JScrollPane panelLoadedSavesSP = new JScrollPane (panelLoadedSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    private final JPanel panelSaves = new JPanel(new GridLayout(0, 1));
+    private final JPanel panelLoadedSaves = new JPanel(new GridLayout(0,1));
+    private final JScrollPane panelSavesSP = new JScrollPane (panelSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    private final JScrollPane panelLoadedSavesSP = new JScrollPane (panelLoadedSaves, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     private File savesFolder;
     private File backupsFolder;
 
-    private ArrayList<SavePanel> loadedPanels = new ArrayList<>();
+    private final ArrayList<SavePanel> loadedPanels = new ArrayList<>();
 
     public HKManager() {
         ensureFolders();
@@ -125,16 +125,44 @@ public class HKManager extends JFrame {
     }
 
     public void moveToStorage(Save save) {
-        moveSaveFile(save, backupsFolder, "user0", true);
-        moveSaveFile(save, savesFolder, "user0", true);
+        try {
+            moveSaveFile(save, backupsFolder, "user0", true);
+        } catch (IOException e) {
+            HKManager.errorMessage("Error moving files to backup storage! Message: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        try {
+            moveSaveFile(save, savesFolder, "user0", true);
+        } catch (IOException e) {
+            HKManager.errorMessage("Error moving files to storage! Message: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         deleteSaveFiles(save);
         loadSaves();
         resizePanels();
     }
 
     public void moveToSlot(Save save, int slot) {
-        moveSaveFile(save, backupsFolder, "user0", true);
-        moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
+        try {
+            moveSaveFile(save, backupsFolder, "user0", true);
+        } catch (IOException e) {
+            HKManager.errorMessage("Error moving files to backup storage! Message: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
+
+        try {
+            moveSaveFile(save, getHollowKnightFolder(), "user" + slot, false);
+        } catch (IOException e) {
+            HKManager.errorMessage("Error moving files to loaded game storage! Message: " + e.getMessage());
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         deleteSaveFiles(save);
         save.getFiles().get(0).getParentFile().delete();
         loadSaves();
@@ -147,7 +175,7 @@ public class HKManager extends JFrame {
         }
     }
 
-    private void moveSaveFile(Save save, File location, String userID, boolean randomFolder) {
+    private void moveSaveFile(Save save, File location, String userID, boolean randomFolder) throws IOException {
         String addition = "";
         if(randomFolder) {
             addition += File.separator + getUnixtime() + (Math.random() * 1000);
@@ -155,7 +183,6 @@ public class HKManager extends JFrame {
         File nFolder = new File(location.getAbsolutePath() + addition);
         nFolder.mkdir();
         for(File f : save.getFiles()) {
-            try {
                 String newName = f.getName();
                 if(userID.endsWith("0")) {
                     newName = newName.replace("user1", userID);
@@ -168,9 +195,6 @@ public class HKManager extends JFrame {
 
                 File newFile = new File(nFolder.getAbsolutePath() + File.separator + newName);
                 Files.copy(f.toPath(), newFile.toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
