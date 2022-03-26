@@ -5,6 +5,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class SavePanel extends JPanel {
     private SavePanel instance;
@@ -12,7 +14,9 @@ public class SavePanel extends JPanel {
     private final JScrollPane parent;
     private final SavePanelRenderer renderer;
     private JLabel title;
+    private ImagePanel folder;
     private ImagePanel gear;
+    private ImagePanel trash;
     private JPanel buttonPanel;
 
     public SavePanel(HKManager hkManager, Save save, JScrollPane parent) {
@@ -26,6 +30,20 @@ public class SavePanel extends JPanel {
         title.setFont(HKManager.getHKFont().deriveFont(24F));
         title.setHorizontalAlignment(JLabel.CENTER);
 
+        folder = new ImagePanel(ImageManager.folder);
+        folder.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                File f = save.getFiles().get(0).getParentFile();
+                try {
+                    Desktop.getDesktop().open(save.getFiles().get(0).getParentFile());
+                } catch (IOException ex) {
+                    HKManager.errorMessage("Couldnt open folder for file <" + f.getAbsolutePath() + ">! Message: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         gear = new ImagePanel(ImageManager.gear);
         gear.addMouseListener(new MouseAdapter() {
             @Override
@@ -33,6 +51,13 @@ public class SavePanel extends JPanel {
                 String newName = (String) JOptionPane.showInputDialog(instance, "Enter new name", "Savegame name", JOptionPane.PLAIN_MESSAGE, new ImageIcon(ImageManager.grub), null, save.getName());
                 save.setName(newName);
                 title.setText(genName(save));
+            }
+        });
+
+        trash = new ImagePanel(ImageManager.trash);
+        trash.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
             }
         });
 
@@ -64,7 +89,9 @@ public class SavePanel extends JPanel {
         });
 
         add(title);
+        add(folder);
         add(gear);
+        add(trash);
         add(renderer);
         add(buttonPanel);
         setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -75,8 +102,12 @@ public class SavePanel extends JPanel {
 
         renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, parent.getViewport().getWidth() / 2));
         int titleHeight = title.getFont().getSize();
-        title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin - titleHeight, titleHeight));
+        title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin - titleHeight*3, titleHeight));
+
+        folder.setPreferredSize(new Dimension(titleHeight, titleHeight));
         gear.setPreferredSize(new Dimension(titleHeight, titleHeight));
+        trash.setPreferredSize(new Dimension(titleHeight, titleHeight));
+
         buttonPanel.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, 60));
 
         setPreferredSize(new Dimension(parent.getViewport().getWidth(), (parent.getViewport().getWidth() / 2) + titleHeight + 60 + safetyMargin));

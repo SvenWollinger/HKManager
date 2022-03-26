@@ -21,6 +21,9 @@ public class ImageManager {
     public static BufferedImage[] nails = new BufferedImage[4];
 
     public static BufferedImage gear;
+    public static BufferedImage folder;
+    public static BufferedImage trash;
+
     public static BufferedImage grub;
     public static BufferedImage grub_square;
 
@@ -40,6 +43,8 @@ public class ImageManager {
             nails[i] = load("nail" + (i + 1));
 
         gear = load("gear");
+        trash = load("trash");
+        folder = load("folder");
         grub = load("grub");
         grub_square = load("grub_square");
     }
