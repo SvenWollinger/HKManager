@@ -91,25 +91,33 @@ public class HKManager extends JFrame {
         File mainFolder = new File(mainFolderPath);
         savesFolder = new File(mainFolderPath + File.separator + "saves");
         backupsFolder = new File(mainFolder + File.separator + "backups");
-        File logFolder = new File(mainFolder + File.separator + "logs");
 
-        //TODO: When add logger, add checks
-        if(!mainFolder.exists())
-            mainFolder.mkdir();
+        createFolder(mainFolder);
+        createFolder(savesFolder);
+        createFolder(backupsFolder);
+    }
 
-        if(!savesFolder.exists())
-            savesFolder.mkdir();
+    public void createFolder(File folder) {
+        if(!folder.exists()) {
+            if(!folder.mkdir()) {
+                HKManager.errorMessage("Could not create folder <" + folder.getAbsolutePath() + ">! Exiting...");
+                System.exit(0);
+            }
+        }
+    }
 
-        if(!backupsFolder.exists())
-            backupsFolder.mkdir();
-
-        if(!logFolder.exists())
-            logFolder.mkdir();
+    public static void errorMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public static File getHollowKnightFolder() {
         File appdata = new File(System.getenv("APPDATA")).getParentFile();
-        return new File(appdata.getAbsolutePath() + File.separator + "LocalLow" + File.separator + "Team Cherry" + File.separator + "Hollow Knight");
+        File hkFolder = new File(appdata.getAbsolutePath() + File.separator + "LocalLow" + File.separator + "Team Cherry" + File.separator + "Hollow Knight");
+        if(!hkFolder.exists()) {
+            HKManager.errorMessage("Hollow knight folder does not exist! Please start the game for the first time first");
+            System.exit(0);
+        }
+        return hkFolder;
     }
 
     public Save getLoadedSave(int index) {
