@@ -27,8 +27,9 @@ public class SavePanel extends JPanel {
         renderer = new SavePanelRenderer(save);
 
         title = new JLabel(genName(save));
-        title.setFont(HKManager.getHKFont().deriveFont(24F));
+        title.setFont(HKManager.getHKFont().deriveFont(28F));
         title.setHorizontalAlignment(JLabel.CENTER);
+        title.setVerticalAlignment(JLabel.CENTER);
 
         folder = new ImagePanel(ImageManager.folder);
         folder.addMouseListener(new MouseAdapter() {
@@ -112,7 +113,7 @@ public class SavePanel extends JPanel {
         final int safetyMargin = 40;
 
         renderer.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin, parent.getViewport().getWidth() / 2));
-        int titleHeight = title.getFont().getSize();
+        int titleHeight = title.getFont().getSize() + 6;
         title.setPreferredSize(new Dimension(parent.getViewport().getWidth() - safetyMargin - titleHeight*3, titleHeight));
 
         folder.setPreferredSize(new Dimension(titleHeight, titleHeight));
