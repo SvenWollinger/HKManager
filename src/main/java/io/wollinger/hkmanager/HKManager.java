@@ -5,6 +5,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -41,6 +43,31 @@ public class HKManager extends JFrame {
 
         add(panelSavesSP);
         add(panelLoadedSavesSP);
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenuItem itemGitHub = new JMenuItem("GitHub");
+        itemGitHub.addActionListener(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/SvenWollinger/HKManager"));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        });
+        menuBar.add(itemGitHub);
+
+        JMenuItem itemSaveGone = new JMenuItem("Lost saves?");
+        itemSaveGone.addActionListener(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/SvenWollinger/HKManager/blob/main/README.md#something-went-wrong-my-save-files-are-gone"));
+            } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        });
+        menuBar.add(itemSaveGone);
+
+
+        setJMenuBar(menuBar);
+
         setVisible(true);
         resizePanels();
     }
