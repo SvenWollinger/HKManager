@@ -7,7 +7,7 @@ The Hollow Knight savegame manager
 - Automatic backups
 
 ### How to use it?
-Just launch the java executable, as long as you have Hollow Knight installed you will see your loaded savegames on the right.
+Just launch the java executable or get the windows version, as long as you have Hollow Knight installed you will see your loaded savegames on the right.
 
 You can now move them to and from your storage.
 
