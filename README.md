@@ -32,6 +32,19 @@ The name of the folders in .hkmanager/saves/ doesnt matter, but when creating th
 
 That means that if you want to manually insert saves into your storage you simply create a new folder and put your save files in there, renaming them to "user0" instead of for example user1.
 
+### Something went wrong! My save files are gone!!
+First off, there is a huge chance you can recover your save game from the backups folder.
+
+Backups are created with basically every action you take, be it deleting or moving a save file.
+
+Here is how to recover your backups:
+
+1. Go to C:\Users\\\<YOUR NAME>\\.hkmanager\
+2. In there you can see the "backups" folder. Create a copy of that somewhere save. This contains all your backed up savegames
+3. Rename your current "saves" folder to something else like "saves.old", then rename "backups" to "saves"
+4. Restart HKManager, your backed up savegames will now appear. You can now move them in and out to recover any save games
+5. Success (Hopefully)
+
 ### License
 
 MIT License
