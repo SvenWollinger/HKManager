@@ -8,16 +8,12 @@ application {
 }
 
 group 'io.wollinger'
-version '1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-
     implementation 'com.formdev:flatlaf:1.6'
     implementation 'org.json:json:20211205'
     implementation 'org.gnu:gnu-crypto:2.0.1'

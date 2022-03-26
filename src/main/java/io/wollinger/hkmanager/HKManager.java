@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 public class HKManager extends JFrame {
+    private final static String VERSION = "1.0.0";
     private final Save[] loadedSaves = new Save[4];
     private final ArrayList<Save> saves = new ArrayList<>();
     private static Font font;
@@ -28,7 +29,7 @@ public class HKManager extends JFrame {
         ensureFolders();
 
         setSize(1024, 512);
-        setTitle("HKManager");
+        setTitle("HKManager " + VERSION);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 2));
 
