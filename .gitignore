@@ -2,6 +2,7 @@
 /.idea/
 /build/
 /logs/
+/release/
 settings.gradle
 HKManager.iml
 config.json
