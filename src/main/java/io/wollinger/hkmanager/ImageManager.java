@@ -22,6 +22,7 @@ public class ImageManager {
 
     public static BufferedImage gear;
     public static BufferedImage grub;
+    public static BufferedImage grub_square;
 
     public static void load() {
         bg = load("bg");
@@ -40,6 +41,7 @@ public class ImageManager {
 
         gear = load("gear");
         grub = load("grub");
+        grub_square = load("grub_square");
     }
 
     private static BufferedImage load(String name) {

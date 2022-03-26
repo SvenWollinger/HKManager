@@ -30,6 +30,7 @@ public class HKManager extends JFrame {
 
         setSize(1024, 512);
         setTitle("HKManager " + VERSION);
+        setIconImage(ImageManager.grub_square);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(0, 2));
 
